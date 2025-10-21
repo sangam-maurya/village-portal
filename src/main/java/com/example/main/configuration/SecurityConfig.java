@@ -25,7 +25,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         security.csrf(c -> c.disable()).cors(c -> c.disable());
         security.authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/admin/create", "/api/v1/admin/login").permitAll()
-                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN").anyRequest().authenticated());
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/villages/info/create").hasRole("ADMIN").anyRequest().authenticated());
         security.formLogin(login->login.permitAll())
                 .httpBasic(org.springframework.security.config.Customizer.withDefaults());
         return security.build();

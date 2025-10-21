@@ -11,11 +11,10 @@ public class VillageInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String villageName;
     private String district;
     private String state;
-    private int population;
+    private long population;
     private String servicesAvailable;
 
     public long getId() {
@@ -50,11 +49,11 @@ public class VillageInfo {
         this.state = state;
     }
 
-    public int getPopulation() {
+    public long getPopulation() {
         return population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(long population) {
         this.population = population;
     }
 

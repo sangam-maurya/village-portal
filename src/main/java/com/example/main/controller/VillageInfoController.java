@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/villages/info")
+@CrossOrigin(origins = "http://localhost:3000")
 public class VillageInfoController {
     private final VillageInfoService service;
 
