@@ -2,11 +2,12 @@ package com.example.main.service;
 
 import com.example.main.entity.VillageInfo;
 import com.example.main.reposetry.VillageInfoRepository;
+import com.example.main.service.Interface.VillageInfoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class VillageInfoServiceImpl implements VillageInfoService{
+public class VillageInfoServiceImpl implements VillageInfoService {
     private final VillageInfoRepository repository;
 
     public VillageInfoServiceImpl(VillageInfoRepository repository) {

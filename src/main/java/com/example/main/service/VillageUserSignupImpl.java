@@ -5,21 +5,25 @@ import com.example.main.entity.VillageUserSignup;
 import com.example.main.payload.VillageUserLoginDto;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.reposetry.VillageUserSignupRepository;
+import com.example.main.service.Interface.VillageUserSignupService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VillageUserSignupImpl implements VillageUserSignupService {
     private final VillageUserSignupRepository villageUserSignupRepository;
     private final ModelMapper mapper;
+    private final JwtService jwtService;
 
-    public VillageUserSignupImpl(VillageUserSignupRepository villageUserSignupRepository, ModelMapper mapper) {
+    public VillageUserSignupImpl(VillageUserSignupRepository villageUserSignupRepository, ModelMapper mapper, JwtService jwtService) {
         this.villageUserSignupRepository = villageUserSignupRepository;
         this.mapper = mapper;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -91,15 +95,30 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
         return villageUserSignup;
     }
 
+//    @Override
+//    public String verifyLogin(VillageUserLoginDto dto) {
+//        VillageUserSignup login = villageUserSignupRepository.findByUsername(dto.getUsername()).orElseThrow(() -> new ResourceNotFound("username is not present " + dto.getUsername()));
+//        boolean checkpw = BCrypt.checkpw(dto.getPassword(), login.getPassword());
+//        if (checkpw) {
+//            return "login successful";
+//        } else {
+//            return "password is incorrect";
+//        }
+//    }
     @Override
-    public String verifyLogin(VillageUserLoginDto dto) {
-        VillageUserSignup login = villageUserSignupRepository.findByUsername(dto.getUsername()).orElseThrow(() -> new ResourceNotFound("username is not present " + dto.getUsername()));
-        boolean checkpw = BCrypt.checkpw(dto.getPassword(), login.getPassword());
-        if (checkpw) {
-            return "login successful";
-        } else {
-            return "password is incorrect";
-        }
+    public String login(VillageUserLoginDto dto){
+    Optional<VillageUserSignup> username =  villageUserSignupRepository.findByUsername(dto.getUsername());
+    if (username.isPresent()){
+        VillageUserSignup villageUserSignup = username.get();
+    if (BCrypt.checkpw(dto.getPassword(), villageUserSignup.getPassword())){
+        String token = jwtService.generateToken(dto.getUsername());
+        return token;
+    }else {
+        return "password missmatch " + villageUserSignup.getPassword();
+    }
+    }else {
+            return "user not found " + dto.getUsername();
+    }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.main.service;
+package com.example.main.service.Interface;
 
 import com.example.main.payload.VillageUserSignupDto;
 

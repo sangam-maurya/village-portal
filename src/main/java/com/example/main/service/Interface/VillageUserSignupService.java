@@ -1,4 +1,4 @@
-package com.example.main.service;
+package com.example.main.service.Interface;
 
 import com.example.main.entity.VillageUserSignup;
 import com.example.main.payload.VillageUserLoginDto;
@@ -14,5 +14,6 @@ VillageUserSignupDto updateVillageUserSignup(VillageUserSignupDto VillageUserSig
 void deleteVillageUserSignup(long id);
 VillageUserSignup findByUsername(String username);
 VillageUserSignup findByEmail(String email);
-String verifyLogin(VillageUserLoginDto dto);
+//String verifyLogin(VillageUserLoginDto dto);
+    String login(VillageUserLoginDto dto);
 }
