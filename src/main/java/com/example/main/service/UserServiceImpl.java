@@ -3,13 +3,14 @@ package com.example.main.service;
 import com.example.main.entity.VillageUserSignup;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.reposetry.VillageUserSignupRepository;
+import com.example.main.service.Interface.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final VillageUserSignupRepository villageUserSignupRepository;
     private final ModelMapper mapper;
     public UserServiceImpl(VillageUserSignupRepository villageUserSignupRepository, ModelMapper mapper) {

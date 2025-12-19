@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
 import com.example.main.payload.VillageUserSignupDto;
-import com.example.main.service.UserService;
+import com.example.main.service.Interface.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

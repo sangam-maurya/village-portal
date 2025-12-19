@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
 import com.example.main.entity.VillageInfo;
-import com.example.main.service.VillageInfoService;
+import com.example.main.service.Interface.VillageInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
