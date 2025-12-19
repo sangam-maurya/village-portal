@@ -39,53 +39,6 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/webjars/**"
     };
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-//        security.csrf(c -> c.disable()).cors(c -> c.disable());
-//       security.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//        security.addFilterBefore(jwtFilter , AuthorizationFilter.class);
-//        security.authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/api/v1/admin/create", "/api/v1/admin/login").permitAll()
-////                .requestMatchers(SWAGGER_WHITELIST).permitAll()
-//                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//                .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-//        );
-////                .httpBasic(Customizer.withDefaults());
-//
-//
-//
-////                .formLogin(login -> login
-////                        .loginProcessingUrl("/api/v1/admin/login") // same login API
-////                        .permitAll()
-////                )
-////                .logout(logout -> logout
-////                        .logoutUrl("/api/v1/admin/logout") // 👈 ye hi logout URL tu frontend se hit karega
-////                        .invalidateHttpSession(true)      // session destroy
-////                        .deleteCookies("JSESSIONID")       // cookie delete
-////                        .logoutSuccessHandler((request, response, authentication) -> {
-////                            response.setStatus(HttpServletResponse.SC_OK);
-////                            response.getWriter().write("{\"message\": \"Logout successful\"}");
-////                        })
-////                        .permitAll()
-////                ).httpBasic(http->http.disable());
-//        return security.build();
-//    }
-//@Bean
-//public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-//    security.csrf(c -> c.disable())
-//            .cors(c -> c.disable())
-//            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//            .addFilterBefore(jwtFilter, AuthorizationFilter.class)
-//            .authorizeHttpRequests(auth -> auth
-//                    .requestMatchers("/api/v1/admin/create", "/api/v1/admin/login").permitAll()
-//                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//                    .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
-//                    .anyRequest().authenticated()
-//            );
-//    return security.build();
-//}
-
    @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
     security
@@ -103,7 +56,6 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                 .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
-
     return security.build();
 }
 
