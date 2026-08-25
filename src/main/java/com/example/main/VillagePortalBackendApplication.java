@@ -9,9 +9,9 @@ public class VillagePortalBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VillagePortalBackendApplication.class, args);
-//		String hashpw = BCrypt.hashpw("Sangam", BCrypt.gensalt(5));
-//		System.out.println(hashpw);
-//		System.out.println(BCrypt.checkpw("Sangam", hashpw));
+		String hashpw = BCrypt.hashpw("sangam", BCrypt.gensalt(5));
+		System.out.println(hashpw);
+		System.out.println(BCrypt.checkpw("sangam", hashpw));
 	}
 
 }
