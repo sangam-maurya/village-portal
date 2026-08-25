@@ -53,12 +53,10 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                         "/api/v1/admin/logout"   // ✅ logout allow
                 ).permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/v2/village/**").hasRole("ADMIN")
                 .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
     return security.build();
 }
-
-
-
 }
