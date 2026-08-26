@@ -55,6 +55,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v2/village/**").hasRole("ADMIN")
                 .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
+                .requestMatchers("/api/v2/problems/create").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/v2/problems").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/v2/problems/{id}").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/v2/problems/update/{id}").hasAnyRole( "ADMIN")
+                .requestMatchers("/api/v2/problems/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
     return security.build();
