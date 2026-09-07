@@ -114,10 +114,10 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
         String token = jwtService.generateToken(dto.getUsername());
         return token;
     }else {
-        return "password missmatch " + villageUserSignup.getPassword();
+        return null;
     }
     }else {
-            return "user not found " + dto.getUsername();
+            return null;
     }
     }
 

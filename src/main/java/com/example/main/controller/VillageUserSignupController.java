@@ -74,7 +74,7 @@ public class VillageUserSignupController {
             tokenDto.setJwt("JWT");
             return new ResponseEntity<>(tokenDto, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Invalid password ", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid password or Username ", HttpStatus.BAD_REQUEST);
         }
     }
 
