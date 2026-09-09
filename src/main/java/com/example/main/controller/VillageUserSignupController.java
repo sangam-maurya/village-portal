@@ -1,5 +1,6 @@
 package com.example.main.controller;
 
+import com.example.main.Excepction.ResourceNotFound;
 import com.example.main.entity.VillageUserSignup;
 import com.example.main.payload.TokenDto;
 import com.example.main.payload.VillageUserLoginDto;
@@ -25,9 +26,13 @@ public class VillageUserSignupController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<VillageUserSignupDto> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto) {
-        VillageUserSignupDto villageUserSignupDto1 = userSignupService.cereateVillageUserSignup(villageUserSignupDto);
-        return new ResponseEntity<>(villageUserSignupDto1, HttpStatus.CREATED);
+    public ResponseEntity<?> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto) {
+        try {
+            VillageUserSignupDto villageUserSignupDto1 = userSignupService.cereateVillageUserSignup(villageUserSignupDto);
+            return new ResponseEntity<>(villageUserSignupDto1, HttpStatus.CREATED);
+        } catch (ResourceNotFound e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/find-all")
@@ -86,4 +91,3 @@ public class VillageUserSignupController {
         );
     }
 }
-
