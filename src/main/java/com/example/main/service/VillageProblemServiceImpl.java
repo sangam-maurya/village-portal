@@ -91,7 +91,6 @@ public class VillageProblemServiceImpl implements VillageProblemService {
         if (dto.getStatus() != null) {
             problem.setStatus(dto.getStatus());
         }
-
         // RESOLVED hone par resolvedAt set karo
         if ("RESOLVED".equalsIgnoreCase(dto.getStatus())) {
             problem.setResolvedAt(LocalDateTime.now());

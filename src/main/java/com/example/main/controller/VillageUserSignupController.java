@@ -64,19 +64,11 @@ public class VillageUserSignupController {
         VillageUserSignup byEmail = userSignupService.findByEmail(email);
         return new ResponseEntity<>(byEmail, HttpStatus.OK);
     }
-//    @PostMapping("/login")
-//    public ResponseEntity<String> verifyLogin(@RequestBody VillageUserLoginDto dto) {
-//        String s = userSignupService.verifyLogin(dto);
-//        return new ResponseEntity<>(s, HttpStatus.OK);
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<?> verifyLogin(@RequestBody VillageUserLoginDto dto) {
-        String login = userSignupService.login(dto);
-        if (login != null) {
-            TokenDto tokenDto = new TokenDto();
-            tokenDto.setToken(login);
-            tokenDto.setJwt("JWT");
+        TokenDto tokenDto = userSignupService.login(dto);
+        if (tokenDto != null) {
             return new ResponseEntity<>(tokenDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Invalid password or Username ", HttpStatus.BAD_REQUEST);

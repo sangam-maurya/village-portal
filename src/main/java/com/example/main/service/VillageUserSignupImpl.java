@@ -2,6 +2,7 @@ package com.example.main.service;
 
 import com.example.main.Excepction.ResourceNotFound;
 import com.example.main.entity.VillageUserSignup;
+import com.example.main.payload.TokenDto;
 import com.example.main.payload.VillageUserLoginDto;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.reposetry.VillageUserSignupRepository;
@@ -95,24 +96,19 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
         return villageUserSignup;
     }
 
-//    @Override
-//    public String verifyLogin(VillageUserLoginDto dto) {
-//        VillageUserSignup login = villageUserSignupRepository.findByUsername(dto.getUsername()).orElseThrow(() -> new ResourceNotFound("username is not present " + dto.getUsername()));
-//        boolean checkpw = BCrypt.checkpw(dto.getPassword(), login.getPassword());
-//        if (checkpw) {
-//            return "login successful";
-//        } else {
-//            return "password is incorrect";
-//        }
-//    }
     @Override
-    public String login(VillageUserLoginDto dto){
+    public TokenDto login(VillageUserLoginDto dto){
     Optional<VillageUserSignup> username =  villageUserSignupRepository.findByUsername(dto.getUsername());
     if (username.isPresent()){
         VillageUserSignup villageUserSignup = username.get();
     if (BCrypt.checkpw(dto.getPassword(), villageUserSignup.getPassword())){
         String token = jwtService.generateToken(dto.getUsername());
-        return token;
+        TokenDto tokenDto = new TokenDto();
+        tokenDto.setToken(token);
+        tokenDto.setJwt("JWT TYPE Token");
+        tokenDto.setRole(villageUserSignup.getRole());
+        tokenDto.setFullName(villageUserSignup.getFullName());
+        return tokenDto;
     }else {
         return null;
     }
