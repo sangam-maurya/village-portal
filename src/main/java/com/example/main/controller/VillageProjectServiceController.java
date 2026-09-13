@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v2/village")
+@CrossOrigin(origins = "http://localhost:3000")
 public class VillageProjectServiceController {
 
     private final VillageProjectServiceImpl villageProjectService;
