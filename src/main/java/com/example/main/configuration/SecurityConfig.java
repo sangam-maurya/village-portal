@@ -54,6 +54,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(SWAGGER_WHITELIST).permitAll()
                 .requestMatchers(
                         "/api/v1/admin/create",
                         "/api/v1/admin/login",

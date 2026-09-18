@@ -45,10 +45,11 @@ public class VillageProblemController {
     // Get Problem By ID
     @GetMapping("/{id}")
     public ResponseEntity<VillageProblemDto> getProblemById(
-            @PathVariable long id) {
+            @PathVariable long id, Authentication authentication) {
+        String username= authentication.getName();
 
         VillageProblemDto problem =
-                villageProblemService.getVillageProblemById(id);
+                villageProblemService.getVillageProblemById(id, username);
 
         return new ResponseEntity<>(problem, HttpStatus.OK);
     }

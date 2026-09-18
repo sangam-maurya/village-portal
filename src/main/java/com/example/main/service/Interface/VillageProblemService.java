@@ -10,7 +10,7 @@ public interface VillageProblemService {
 
     List<VillageProblemDto> getAllVillageProblems();
 
-    VillageProblemDto getVillageProblemById(long id);
+    VillageProblemDto getVillageProblemById(long id, String username);
 
     VillageProblemDto updateVillageProblem(VillageProblemDto dto, long id);
 
