@@ -9,6 +9,8 @@ public class VillageProblemDto {
 
     private Long id;
 
+//    private Long problemNumber;
+
     @NotBlank(message = "Title is required")
     @Size(min = 5, max = 100, message = "Title must be between 5 and 100 characters")
     private String title;
@@ -114,4 +116,12 @@ public class VillageProblemDto {
     public void setResolvedAt(LocalDateTime resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
+
+//    public Long getProblemNumber() {
+//        return problemNumber;
+//    }
+//
+//    public void setProblemNumber(Long problemNumber) {
+//        this.problemNumber = problemNumber;
+//    }
 }

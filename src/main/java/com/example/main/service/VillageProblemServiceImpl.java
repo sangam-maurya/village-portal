@@ -42,6 +42,11 @@ public class VillageProblemServiceImpl implements VillageProblemService {
 
         villageProblem.setReportedBy(authentication.getName());
 
+//        long count = villageProblemRepository.countByReportedBy(authentication.getName());
+//
+//        villageProblem.setProblemNumber(count+1);
+
+
         // Database mein save
         VillageProblem saved =
                 villageProblemRepository.save(villageProblem);
@@ -62,10 +67,11 @@ public class VillageProblemServiceImpl implements VillageProblemService {
     }
 
     @Override
-    public VillageProblemDto getVillageProblemById(long id) {
+    public VillageProblemDto getVillageProblemById(long id, String username) {
+
 
         VillageProblem problem =
-                villageProblemRepository.findById(id)
+                villageProblemRepository.findByIdAndReportedBy(id, username)
                         .orElseThrow(() ->
                                 new ResourceNotFound("Problem not found with id " + id));
 

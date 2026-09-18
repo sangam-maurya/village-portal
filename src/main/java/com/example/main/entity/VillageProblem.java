@@ -32,6 +32,8 @@ public class VillageProblem {
 
     private LocalDateTime resolvedAt;
 
+//    private Long problemNumber;
+
 
     public Long getId() {
         return id;
@@ -112,4 +114,12 @@ public class VillageProblem {
     public void setResolvedAt(LocalDateTime resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
+
+//    public Long getProblemNumber() {
+//        return problemNumber;
+//    }
+//
+//    public void setProblemNumber(Long problemNumber) {
+//        this.problemNumber = problemNumber;
+//    }
 }
