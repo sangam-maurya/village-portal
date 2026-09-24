@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,15 +26,11 @@ public class VillageUserSignupController {
         this.userSignupService = userSignupService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto) {
-        try {
+        @PostMapping("/create")
+        public ResponseEntity<?> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto){
             VillageUserSignupDto villageUserSignupDto1 = userSignupService.cereateVillageUserSignup(villageUserSignupDto);
             return new ResponseEntity<>(villageUserSignupDto1, HttpStatus.CREATED);
-        } catch (ResourceNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
-    }
 
     @GetMapping("/find-all")
     public ResponseEntity<List<VillageUserSignupDto>> getAllData() {
@@ -42,7 +39,7 @@ public class VillageUserSignupController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<VillageUserSignupDto> updateData(@PathVariable Long id, @RequestBody VillageUserSignupDto dto) {
+    public ResponseEntity<VillageUserSignupDto> updateData(@PathVariable Long id, @RequestBody VillageUserSignupDto dto){
         VillageUserSignupDto villageUserSignupDto = userSignupService.updateVillageUserSignup(dto, id);
         return new ResponseEntity<>(villageUserSignupDto, HttpStatus.CREATED);
     }

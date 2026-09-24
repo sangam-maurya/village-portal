@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 @SpringBootApplication
 public class VillagePortalBackendApplication {
 
@@ -12,6 +14,7 @@ public class VillagePortalBackendApplication {
 //		String hashpw = BCrypt.hashpw("sangam", BCrypt.gensalt(5));
 //		System.out.println(hashpw);
 //		System.out.println(BCrypt.checkpw("sangam", hashpw));
-	}
 
+
+	}
 }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 @Service
 public class UserServiceImpl implements UserService {
-    private final VillageUserSignupRepository villageUserSignupRepository;
+    private  final VillageUserSignupRepository villageUserSignupRepository;
+
     private final ModelMapper mapper;
     public UserServiceImpl(VillageUserSignupRepository villageUserSignupRepository, ModelMapper mapper) {
         this.villageUserSignupRepository = villageUserSignupRepository;
@@ -53,4 +54,5 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         villageUserSignupRepository.delete(user);
     }
+
 }
