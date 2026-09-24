@@ -29,6 +29,8 @@ public class VillageUserSignupDto {
 
     private LocalDateTime createAt;
 
+
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,6 @@ public class VillageUserSignupDto {
     public void setRole(String role) {
         this.role = role;
     }
+
 }
 
