@@ -1,7 +1,10 @@
 package com.example.main.service;
 
 import com.example.main.entity.EmailVerification;
+import com.example.main.entity.VillageUserSignup;
 import com.example.main.reposetry.EmailVerificationRepository;
+import com.example.main.reposetry.VillageUserSignupRepository;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,12 +15,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class EmailVerificationService {
 
     private final EmailVerificationRepository emailVerificationRepository;
-
+    private final VillageUserSignupRepository repository;
 
     private final EmaillService emaillService;
 
-    public EmailVerificationService(EmailVerificationRepository emailVerificationRepository, EmaillService emaillService) {
+    public EmailVerificationService(EmailVerificationRepository emailVerificationRepository, VillageUserSignupRepository repository, EmaillService emaillService) {
         this.emailVerificationRepository = emailVerificationRepository;
+        this.repository = repository;
         this.emaillService = emaillService;
     }
 
@@ -46,9 +50,14 @@ public class EmailVerificationService {
 
         emaillService.sendMsg(
                 email,
-                "Village Portal Email Verification",
-                "Your Village  OTP is: " + otp +
-                        "\nThis OTP is valid for 5 minutes."
+                "Village Portal - Password Reset OTP",
+                "Dear User,\n\n"
+                        + "We received a request to reset your Village Portal password.\n\n"
+                        + "Your One-Time Password (OTP) is: " + otp + "\n\n"
+                        + "This OTP is valid for 5 minutes. Please do not share this OTP with anyone.\n\n"
+                        + "If you did not request a password reset, please ignore this email.\n\n"
+                        + "Regards,\n"
+                        + "Village Portal Team"
         );
 
         return otp;
@@ -78,6 +87,28 @@ public class EmailVerificationService {
 
         emailVerificationRepository.save(data);
         return "Otp verified successfully";
+    }
+
+    public String forgetPassword(String email , String otp, String newPassword){
+        String result = verifyOtp(email, otp);
+        if (!result.equals("Otp verified successfully")){
+            return result;
+        }
+        Optional<EmailVerification> email1 = emailVerificationRepository.findByEmail(email);
+        if (email1.isPresent()){
+            EmailVerification emailVerification = email1.get();
+        }
+        Optional<VillageUserSignup> signup = repository.findByEmail(email);
+        if(signup.isEmpty()){
+            return "user not found ";
+        }
+        VillageUserSignup villageUserSignup = signup.get();
+        String hashpw = BCrypt.hashpw(newPassword, BCrypt.gensalt(5));
+        villageUserSignup.setPassword(hashpw);
+
+        repository.save(villageUserSignup);
+
+        return "password reset succesfully";
     }
 
 }

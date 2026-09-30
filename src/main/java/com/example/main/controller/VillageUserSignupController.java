@@ -37,7 +37,6 @@ public class VillageUserSignupController {
         List<VillageUserSignupDto> villageUserSignup = userSignupService.getVillageUserSignup();
         return new ResponseEntity<>(villageUserSignup, HttpStatus.OK);
     }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<VillageUserSignupDto> updateData(@PathVariable Long id, @RequestBody VillageUserSignupDto dto){
         VillageUserSignupDto villageUserSignupDto = userSignupService.updateVillageUserSignup(dto, id);
