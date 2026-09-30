@@ -40,7 +40,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String token = header.substring(7);// remove "Bearer "
-        System.out.println("TOKEN = " + token);
         try {
             // Extract username
             String username = jwtService.getUsername(token);

@@ -7,7 +7,6 @@ import com.example.main.reposetry.VillageProjectRepository;
 import com.example.main.service.Interface.VillageProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -15,6 +14,7 @@ public class VillageProjectServiceImpl implements VillageProjectService {
 
     private final VillageProjectRepository villageProjectRepository;
     private final ModelMapper mapper;
+
 
     public VillageProjectServiceImpl(VillageProjectRepository villageProjectRepository, ModelMapper mapper) {
         this.villageProjectRepository = villageProjectRepository;

@@ -58,7 +58,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                 .requestMatchers(
                         "/api/v1/admin/create",
                         "/api/v1/admin/login",
-                        "/api/v1/admin/logout"   // ✅ logout allow
+                        "/api/v1/admin/logout" ,
+                        "/api/v1/verification/**"
+                        // ✅ logout allow
                 ).permitAll()
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v2/village/create").hasRole("ADMIN")
@@ -70,7 +72,6 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                 .requestMatchers("/api/v2/problems/update/{id}").hasAnyRole( "ADMIN")
                 .requestMatchers("/api/v2/problems/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/email/**").hasRole("ADMIN")
-                .requestMatchers("/api/v1/verification/**").hasRole("ADMIN")
                 .requestMatchers("/api/ai/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
         );

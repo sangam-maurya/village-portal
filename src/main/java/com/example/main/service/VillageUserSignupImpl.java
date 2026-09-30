@@ -10,6 +10,8 @@ import com.example.main.reposetry.EmailVerificationRepository;
 import com.example.main.reposetry.VillageUserSignupRepository;
 import com.example.main.service.Interface.VillageUserSignupService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,8 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
     private final JwtService jwtService;
     private final EmailVerificationService emailVerificationService;
     private final EmailVerificationRepository emailVerificationRepository;
+    private static final Logger log =
+            LoggerFactory.getLogger(EmailVerificationService.class);
 
     public VillageUserSignupImpl(VillageUserSignupRepository villageUserSignupRepository, ModelMapper mapper, JwtService jwtService, EmailVerificationService emailVerificationService, EmailVerificationRepository emailVerificationRepository) {
         this.villageUserSignupRepository = villageUserSignupRepository;
@@ -41,27 +45,32 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
         // 1️⃣ DTO → Entity
         VillageUserSignup villageUserSignup = mapper.map(dto, VillageUserSignup.class);
 
+        log.info("Setting user creation time");
         // 2️⃣ Backend se createAt set karo (save se pehle)
         villageUserSignup.setCreateAt(LocalDateTime.now());
         if (villageUserSignupRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new ResourceNotFound("username is already present");
         }
+        log.info("Checking email verification status");
         if (villageUserSignupRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new ResourceNotFound("email is already present");
         }
+        log.info("hashing password");
         String hashpw = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(5));
         villageUserSignup.setPassword(hashpw);
         dto.setRole("USER");
         villageUserSignup.setRole(dto.getRole());
 
 
-        Optional<EmailVerification> verification =
-                emailVerificationRepository.findByEmail(dto.getEmail());
+//        Optional<EmailVerification> verification =
+//                emailVerificationRepository.findByEmail(dto.getEmail());
 
-        if (verification.isEmpty() || !verification.get().isVerified()) {
-            throw new ResourceNotFound("Please verify your email first");
-        }
+//        log.info("veryfing email email is present or not ");
+//        if (verification.isEmpty() || !verification.get().isVerified()) {
+//            throw new ResourceNotFound("Please verify your email first");
+//        }
 
+        log.info("saving user info");
         // 3️⃣ DB me save karo
         VillageUserSignup savedEntity = villageUserSignupRepository.save(villageUserSignup);
         emailVerificationService.saveOtp(dto.getEmail());
