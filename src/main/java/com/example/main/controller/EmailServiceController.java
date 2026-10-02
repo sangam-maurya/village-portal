@@ -1,14 +1,12 @@
 package com.example.main.controller;
 
 import com.example.main.service.EmaillService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Text;
 
 @RestController
 @RequestMapping("/api/v1/email")
+@CrossOrigin(origins = "*")
 public class EmailServiceController {
 
     private final EmaillService emaillService;
