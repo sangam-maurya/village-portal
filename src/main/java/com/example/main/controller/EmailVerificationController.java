@@ -30,12 +30,7 @@ public class EmailVerificationController {
                 HttpStatus.OK
         );
     }
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOtp(@RequestParam String email , @RequestParam String otp){
-        String result = emailVerificationService.verifyOtp(email, otp);
-        return new ResponseEntity<>(result , HttpStatus.OK);
-    }
-    @PostMapping("/verify-pass")
+    @PostMapping("/forget-pass")
     public ResponseEntity<?> forgetPass(@RequestParam String email ,
                                         @RequestParam String otp ,
                                         @RequestParam String newPassword){
