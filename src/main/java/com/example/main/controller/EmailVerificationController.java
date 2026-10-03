@@ -1,6 +1,7 @@
 package com.example.main.controller;
 
 import com.example.main.service.EmailVerificationService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,13 @@ public class EmailVerificationController {
                 HttpStatus.OK
         );
     }
+
     @PostMapping("/forget-pass")
-    public ResponseEntity<?> forgetPass(@RequestParam String email ,
-                                        @RequestParam String otp ,
-                                        @RequestParam String newPassword){
-        String string = emailVerificationService.forgetPassword(email, otp, newPassword);
-        return new ResponseEntity<>(string , HttpStatus.OK);
+    public ResponseEntity<?> forgetPass(@RequestParam String email,
+                                        @RequestParam String otp,
+                                        @RequestParam String newPassword) throws BadRequestException {
+
+        String result = emailVerificationService.forgetPassword(email, otp, newPassword);
+            return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
