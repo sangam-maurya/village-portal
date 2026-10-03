@@ -45,19 +45,49 @@ public class VillageProjectServiceImpl implements VillageProjectService {
 
     @Override
     public VillageProjectDto updateVillageProject(VillageProjectDto dto, long id) {
-        VillageProject villageProject = villageProjectRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present"));
-        villageProject.setTitle(dto.getTitle());
-        villageProject.setDescription(dto.getDescription());
-        villageProject.setCategory(dto.getCategory());
-        villageProject.setBudget(dto.getBudget());
-        villageProject.setProgress(dto.getProgress());
-        villageProject.setStartDate(dto.getStartDate());
-        villageProject.setExpectedEndDate(dto.getExpectedEndDate());
-        villageProject.setStatus(dto.getStatus());
-        villageProject.setLocation(dto.getLocation());
+
+        VillageProject villageProject = villageProjectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("id is not present"));
+
+        if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
+            villageProject.setTitle(dto.getTitle());
+        }
+
+        if (dto.getDescription() != null && !dto.getDescription().isEmpty()) {
+            villageProject.setDescription(dto.getDescription());
+        }
+
+        if (dto.getCategory() != null && !dto.getCategory().isEmpty()) {
+            villageProject.setCategory(dto.getCategory());
+        }
+
+        if (dto.getBudget() != null) {
+            villageProject.setBudget(dto.getBudget());
+        }
+
+        if (dto.getProgress() != null) {
+            villageProject.setProgress(dto.getProgress());
+        }
+
+        if (dto.getStartDate() != null) {
+            villageProject.setStartDate(dto.getStartDate());
+        }
+
+        if (dto.getExpectedEndDate() != null) {
+            villageProject.setExpectedEndDate(dto.getExpectedEndDate());
+        }
+
+        if (dto.getStatus() != null && !dto.getStatus().isEmpty()) {
+            villageProject.setStatus(dto.getStatus());
+        }
+
+        if (dto.getLocation() != null && !dto.getLocation().isEmpty()) {
+            villageProject.setLocation(dto.getLocation());
+        }
+
         VillageProject save = villageProjectRepository.save(villageProject);
-        VillageProjectDto map = mapper.map(save, VillageProjectDto.class);
-        return  map;
+
+        return mapper.map(save, VillageProjectDto.class);
     }
 
     @Override

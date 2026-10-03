@@ -3,12 +3,13 @@ package com.example.main.controller;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.service.Interface.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "*")
 public class UserController {
 
@@ -33,10 +34,9 @@ public class UserController {
         return ResponseEntity.ok(updatedDto);
     }
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteMyAccount(Authentication auth) {
+    public ResponseEntity<String> deleteMyAccount(Authentication auth) {
         String username = auth.getName();
         userService.deleteMyAccount(username);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("user delete successfully " , HttpStatus.OK);
     }
-
 }

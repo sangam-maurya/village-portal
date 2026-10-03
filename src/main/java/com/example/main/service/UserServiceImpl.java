@@ -1,5 +1,6 @@
 package com.example.main.service;
 
+import com.example.main.Excepction.ResourceNotFound;
 import com.example.main.entity.VillageUserSignup;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.reposetry.VillageUserSignupRepository;
@@ -28,26 +29,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public VillageUserSignupDto updateMyData(String username, VillageUserSignupDto dto) {
+
         VillageUserSignup user = villageUserSignupRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFound("User not found"));
 
-        // Update fields
-        user.setFullName(dto.getFullName());
-        user.setPhone(dto.getPhone());
-        user.setEmail(dto.getEmail());
-        user.setUsername(dto.getUsername());
-
-        // Password encryption
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            user.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(5)));
+        if (dto.getFullName() != null && !dto.getFullName().isEmpty()) {
+            user.setFullName(dto.getFullName());
         }
 
-        user.setCreateAt(LocalDateTime.now()); // optional, if you want update time
+        if (dto.getPhone() != null && !dto.getPhone().isEmpty()) {
+            user.setPhone(dto.getPhone());
+        }
 
-        VillageUserSignup saved = villageUserSignupRepository.save(user);
+        if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
+            user.setEmail(dto.getEmail());
+        }
+
+        if (dto.getUsername() != null && !dto.getUsername().isEmpty()) {
+            user.setUsername(dto.getUsername());
+        }
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            String hashpw = BCrypt.hashpw(
+                    dto.getPassword(),
+                    BCrypt.gensalt(5)
+            );
+            user.setPassword(hashpw);
+        }
+
+        VillageUserSignup saved =
+                villageUserSignupRepository.save(user);
+
         return mapper.map(saved, VillageUserSignupDto.class);
     }
-
     @Override
     public void deleteMyAccount(String username) {
         VillageUserSignup user = villageUserSignupRepository.findByUsername(username)

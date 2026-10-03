@@ -62,9 +62,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                         "/api/v1/verification/**"
                         // ✅ logout allow
                 ).permitAll()
+                .requestMatchers("/api/v1/admin/create").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v2/village/create").hasRole("ADMIN")
-                .requestMatchers("/api/v2/village/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/v2/village/find").hasAnyRole("USER" , "ADMIN")
+                .requestMatchers("/api/v2/village/**").hasRole("ADMIN")
                 .requestMatchers("/api/villages/info/create").hasRole("ADMIN")
                 .requestMatchers("/api/v2/problems/create").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/v2/problems").hasAnyRole("USER", "ADMIN")

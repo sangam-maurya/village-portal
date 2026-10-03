@@ -38,7 +38,7 @@ public class VillageProjectDto {
 
     @Min(value = 0, message = "Progress cannot be less than 0")
     @Max(value = 100, message = "Progress cannot be greater than 100")
-    private int progress;
+    private Integer progress;
 
     @NotBlank(message = "Location is required")
     private String location;
@@ -76,11 +76,11 @@ public class VillageProjectDto {
         this.category = category;
     }
 
-    public long getBudget() {
+    public Long getBudget() {
         return budget;
     }
 
-    public void setBudget(long budget) {
+    public void setBudget(Long budget) {
         this.budget = budget;
     }
 
@@ -108,11 +108,11 @@ public class VillageProjectDto {
         this.status = status;
     }
 
-    public int getProgress() {
+    public Integer getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(Integer progress) {
         this.progress = progress;
     }
 

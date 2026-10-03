@@ -61,20 +61,9 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
         dto.setRole("USER");
         villageUserSignup.setRole(dto.getRole());
 
-
-//        Optional<EmailVerification> verification =
-//                emailVerificationRepository.findByEmail(dto.getEmail());
-
-//        log.info("veryfing email email is present or not ");
-//        if (verification.isEmpty() || !verification.get().isVerified()) {
-//            throw new ResourceNotFound("Please verify your email first");
-//        }
-
         log.info("saving user info");
         // 3️⃣ DB me save karo
         VillageUserSignup savedEntity = villageUserSignupRepository.save(villageUserSignup);
-        emailVerificationService.saveOtp(dto.getEmail());
-
         VillageUserSignupDto responseDto = mapper.map(savedEntity, VillageUserSignupDto.class);
 
         // 5️⃣ Optional (ensure consistency)
@@ -91,23 +80,6 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
     }
 
     @Override
-    public VillageUserSignupDto updateVillageUserSignup(VillageUserSignupDto dto, long id) {
-        VillageUserSignup entity = villageUserSignupRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present"));
-        entity.setFullName(dto.getFullName());
-        entity.setEmail(dto.getEmail());
-//        entity.setPassword(dto.getPassword());
-        entity.setUsername(dto.getUsername());
-        entity.setPhone(dto.getPhone());
-        if (dto.getPassword()!=null && !dto.getPassword().isEmpty()){
-            String hashpw = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt(5));
-            entity.setPassword(hashpw);
-        }
-        VillageUserSignup updatedEntity = villageUserSignupRepository.save(entity);
-        VillageUserSignupDto responseDto = mapper.map(updatedEntity, VillageUserSignupDto.class);
-        return responseDto;
-    }
-
-    @Override
     public void deleteVillageUserSignup(long id) {
         VillageUserSignup villageUserSignup = villageUserSignupRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present " + id));
         villageUserSignupRepository.delete(villageUserSignup);
@@ -116,12 +88,6 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
     @Override
     public VillageUserSignup findByUsername(String username) {
         VillageUserSignup villageUserSignup = villageUserSignupRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFound("Username is not present " + username));
-        return villageUserSignup;
-    }
-
-    @Override
-    public VillageUserSignup findByEmail(String email) {
-        VillageUserSignup villageUserSignup = villageUserSignupRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFound("email is not present " + email));
         return villageUserSignup;
     }
 

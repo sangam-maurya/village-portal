@@ -26,7 +26,7 @@ public class VillageProjectServiceController {
         return  new ResponseEntity<>(villageProject , HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/find")
     public ResponseEntity<List<VillageProjectDto>> getAboutVillage(){
         List<VillageProjectDto> allVillageProjects = villageProjectService.getAllVillageProjects();
         return new ResponseEntity<>(allVillageProjects , HttpStatus.OK);
@@ -37,12 +37,12 @@ public class VillageProjectServiceController {
         VillageProjectDto villageProjectById = villageProjectService.getVillageProjectById(id);
         return new ResponseEntity<>(villageProjectById , HttpStatus.OK);
     }
-    @PutMapping("/update/byid/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<VillageProjectDto> updateAboutVillage( @PathVariable long id ,@Valid @RequestBody VillageProjectDto dto){
         VillageProjectDto villageProjectDto = villageProjectService.updateVillageProject(dto, id);
         return new ResponseEntity<>(villageProjectDto , HttpStatus.OK);
     }
-    @DeleteMapping("/delete/byid/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAboutVillage(@PathVariable long id){
         villageProjectService.deleteVillageProject(id);
         return new ResponseEntity<>("item deleted" , HttpStatus.OK);
