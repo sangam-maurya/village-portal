@@ -38,4 +38,6 @@ public class EmailVerificationController {
         String result = emailVerificationService.forgetPassword(email, otp, newPassword);
             return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+
 }
