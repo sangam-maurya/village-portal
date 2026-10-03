@@ -1,9 +1,11 @@
 package com.example.main.service;
 
+import com.example.main.Excepction.ResourceNotFound;
 import com.example.main.entity.EmailVerification;
 import com.example.main.entity.VillageUserSignup;
 import com.example.main.reposetry.EmailVerificationRepository;
 import com.example.main.reposetry.VillageUserSignupRepository;
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -69,19 +71,19 @@ public class EmailVerificationService {
                         .nextInt(100000, 1000000)
         );
     }
-    public  String verifyOtp(String email , String otp){
+    public  String verifyOtp(String email , String otp) throws BadRequestException {
 
         Optional<EmailVerification> verification = emailVerificationRepository.findByEmail(email);
 
         if (verification.isEmpty()){
-            return "otp not found ";
+            throw  new ResourceNotFound("email is not present");
         }
         EmailVerification data = verification.get();
         if (!data.getOtp().equals(otp)){
-            return "Invalid Otp";
+           throw new BadRequestException("invalid otp");
         }
         if (data.getExpiryTime().isBefore(LocalDateTime.now())){
-            return  "otp expired";
+           throw new BadRequestException("Otp Expire");
         }
         data.setVerified(true);
 
@@ -89,7 +91,7 @@ public class EmailVerificationService {
         return "Otp verified successfully";
     }
 
-    public String forgetPassword(String email , String otp, String newPassword){
+    public String forgetPassword(String email , String otp, String newPassword) throws BadRequestException {
         String result = verifyOtp(email, otp);
         if (!result.equals("Otp verified successfully")){
             return result;
@@ -100,7 +102,7 @@ public class EmailVerificationService {
         }
         Optional<VillageUserSignup> signup = repository.findByEmail(email);
         if(signup.isEmpty()){
-            return "user not found ";
+            throw new ResourceNotFound("email is not present ");
         }
         VillageUserSignup villageUserSignup = signup.get();
         String hashpw = BCrypt.hashpw(newPassword, BCrypt.gensalt(5));

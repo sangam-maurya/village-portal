@@ -17,12 +17,12 @@ public class GlobalException {
     @ExceptionHandler(ResourceNotFound.class)
     public ResponseEntity<ErrorDto>handelException(ResourceNotFound resourceNotFound , WebRequest web){
         ErrorDto errorDto = new ErrorDto(resourceNotFound.getMessage(), web.getDescription(true), new Date());
-        return ResponseEntity.ok(errorDto);
+        return new ResponseEntity<>(errorDto , HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDto> handelException(Exception e , WebRequest web){
         ErrorDto errorDto = new ErrorDto(e.getMessage(),web.getDescription(true),new Date() );
-        return ResponseEntity.ok(errorDto);
+        return new ResponseEntity<>(errorDto , HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
