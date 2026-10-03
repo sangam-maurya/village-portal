@@ -29,6 +29,11 @@ public class EmailVerificationService {
 
 
     public String saveOtp(String email) {
+        Optional<VillageUserSignup> signup = repository.findByEmail(email);
+
+        if (signup.isEmpty()) {
+            throw new ResourceNotFound("Email is not registered please enter correct email ");
+        }
 
         String otp = generateOtp();
 
@@ -73,14 +78,20 @@ public class EmailVerificationService {
     }
     public  String verifyOtp(String email , String otp) throws BadRequestException {
 
+        Optional<VillageUserSignup> signup = repository.findByEmail(email);
+        if (signup.isEmpty()){
+            throw  new ResourceNotFound("Email is not registered please enter correct email ");
+        }
+
+
         Optional<EmailVerification> verification = emailVerificationRepository.findByEmail(email);
 
         if (verification.isEmpty()){
-            throw  new ResourceNotFound("email is not present");
+            throw  new ResourceNotFound("email is not present please user correct email ");
         }
         EmailVerification data = verification.get();
         if (!data.getOtp().equals(otp)){
-           throw new BadRequestException("invalid otp");
+           throw new BadRequestException("invalid otp please enter correct email ");
         }
         if (data.getExpiryTime().isBefore(LocalDateTime.now())){
            throw new BadRequestException("Otp Expire");
@@ -93,23 +104,11 @@ public class EmailVerificationService {
 
     public String forgetPassword(String email , String otp, String newPassword) throws BadRequestException {
         String result = verifyOtp(email, otp);
-        if (!result.equals("Otp verified successfully")){
-            return result;
-        }
-        Optional<EmailVerification> email1 = emailVerificationRepository.findByEmail(email);
-        if (email1.isPresent()){
-            EmailVerification emailVerification = email1.get();
-        }
-        Optional<VillageUserSignup> signup = repository.findByEmail(email);
-        if(signup.isEmpty()){
-            throw new ResourceNotFound("email is not present ");
-        }
-        VillageUserSignup villageUserSignup = signup.get();
+        VillageUserSignup signup = repository.findByEmail(email).get();
+
         String hashpw = BCrypt.hashpw(newPassword, BCrypt.gensalt(5));
-        villageUserSignup.setPassword(hashpw);
-
-        repository.save(villageUserSignup);
-
+        signup.setPassword(hashpw);
+        repository.save(signup);
         return "password reset succesfully";
     }
 
