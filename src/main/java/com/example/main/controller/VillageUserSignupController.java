@@ -37,11 +37,6 @@ public class VillageUserSignupController {
         List<VillageUserSignupDto> villageUserSignup = userSignupService.getVillageUserSignup();
         return new ResponseEntity<>(villageUserSignup, HttpStatus.OK);
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<VillageUserSignupDto> updateData(@PathVariable Long id, @RequestBody VillageUserSignupDto dto){
-        VillageUserSignupDto villageUserSignupDto = userSignupService.updateVillageUserSignup(dto, id);
-        return new ResponseEntity<>(villageUserSignupDto, HttpStatus.CREATED);
-    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
@@ -53,12 +48,6 @@ public class VillageUserSignupController {
     public ResponseEntity<VillageUserSignup> findUsername(@RequestParam("username") String username) {
         VillageUserSignup byUsername = userSignupService.findByUsername(username);
         return new ResponseEntity<>(byUsername, HttpStatus.OK);
-    }
-
-    @GetMapping("/by-email")
-    public ResponseEntity<VillageUserSignup> findEmail(@RequestParam("email") String email) {
-        VillageUserSignup byEmail = userSignupService.findByEmail(email);
-        return new ResponseEntity<>(byEmail, HttpStatus.OK);
     }
 
     @PostMapping("/login")
