@@ -34,7 +34,7 @@ public class VillageProblemServiceImpl implements VillageProblemService {
 
         // Backend controlled fields
         villageProblem.setCreatedAt(LocalDateTime.now());
-        villageProblem.setStatus("REPORTED");
+        villageProblem.setStatus("PENDING");
 
         // Logged-in user ka username
         Authentication authentication =
@@ -127,5 +127,20 @@ public class VillageProblemServiceImpl implements VillageProblemService {
         return problems.stream()
                 .map(problem -> mapper.map(problem, VillageProblemDto.class))
                 .toList();
+    }
+
+    @Override
+    public long getTotalProblems() {
+        return villageProblemRepository.count();
+    }
+
+    @Override
+    public long getPendingProblems(String msg) {
+        return villageProblemRepository.countByStatus("PENDING");
+    }
+
+    @Override
+    public long getResolvedProblems(String msg) {
+        return villageProblemRepository.countByStatus("RESOLVED");
     }
 }

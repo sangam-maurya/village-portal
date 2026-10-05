@@ -95,4 +95,10 @@ public class VillageProjectServiceImpl implements VillageProjectService {
         VillageProject villageProject = villageProjectRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present"));
       villageProjectRepository.delete(villageProject);
     }
+
+    @Override
+    public long getProjectCount(){
+        long count = villageProjectRepository.count();
+        return count;
+    }
 }
