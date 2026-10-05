@@ -1,0 +1,52 @@
+# Database setup
+spring:
+  application:
+    name: village-portal-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/villagePortal?createDatabaseIfNotExist=true
+    username: root
+    password: Sangam@123
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sangamm161@gmail.com
+    password: emzmvvogvvzqmrnv
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: gemma3:4b
+          num-predict: 100
+
+server:
+  port: 8081
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# JWT Setup
+jwt:
+  algorithm:
+    key: bXlTdXBlclNlY3JldEtleU1vbmdGb3JTdXJlMTIzNDU2Nzg5MDEyMzQ1Ng==
+  issuer: sagnam
+  expiry:
+    duration: 3600000
+
+# Email setup
+# AI Setup
