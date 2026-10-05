@@ -95,10 +95,4 @@ public class VillageUserSignupController {
         VillageUserSignupDto userDataById = userSignupService.getUserDataById(id);
         return new ResponseEntity<>(userDataById , HttpStatus.OK);
     }
-
-    @GetMapping("/count")
-    public ResponseEntity<?> getUserCount(){
-        long count = userSignupService.getCount();
-        return new ResponseEntity<>( "total user count is " + count , HttpStatus.OK);
-    }
 }

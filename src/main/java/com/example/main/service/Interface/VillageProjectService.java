@@ -16,4 +16,6 @@ public interface VillageProjectService {
     VillageProjectDto updateVillageProject(VillageProjectDto dto, long id);
 
     void deleteVillageProject(long id);
+
+    long getProjectCount();
 }

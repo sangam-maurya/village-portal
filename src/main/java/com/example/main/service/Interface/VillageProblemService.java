@@ -17,4 +17,9 @@ public interface VillageProblemService {
     void deleteVillageProblem(long id);
 
     List<VillageProblemDto> getMyVillageProblems(String username);
+    long getTotalProblems();
+
+    long getPendingProblems(String msg);
+
+    long getResolvedProblems(String msg);
 }

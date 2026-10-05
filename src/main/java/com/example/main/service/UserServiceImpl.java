@@ -48,15 +48,6 @@ public class UserServiceImpl implements UserService {
         if (dto.getUsername() != null && !dto.getUsername().isEmpty()) {
             user.setUsername(dto.getUsername());
         }
-
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-            String hashpw = BCrypt.hashpw(
-                    dto.getPassword(),
-                    BCrypt.gensalt(5)
-            );
-            user.setPassword(hashpw);
-        }
-
         VillageUserSignup saved =
                 villageUserSignupRepository.save(user);
 

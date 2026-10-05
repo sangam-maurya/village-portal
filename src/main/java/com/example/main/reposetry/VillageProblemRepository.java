@@ -10,4 +10,5 @@ public interface VillageProblemRepository extends JpaRepository<VillageProblem, 
     List<VillageProblem> findByReportedBy(String reportedBy);
     Optional<VillageProblem> findByIdAndReportedBy(long id, String username);
     long countByReportedBy(String username);
+    long countByStatus(String status);
 }
