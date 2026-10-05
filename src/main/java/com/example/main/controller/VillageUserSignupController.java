@@ -6,10 +6,13 @@ import com.example.main.payload.TokenDto;
 import com.example.main.payload.VillageUserLoginDto;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.service.Interface.VillageUserSignupService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -25,12 +28,32 @@ public class VillageUserSignupController {
     public VillageUserSignupController(VillageUserSignupService userSignupService) {
         this.userSignupService = userSignupService;
     }
+//
+//        @PostMapping("/create")
+//        public ResponseEntity<?> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto){
+//            VillageUserSignupDto villageUserSignupDto1 = userSignupService.cereateVillageUserSignup(villageUserSignupDto);
+//            return new ResponseEntity<>(villageUserSignupDto1, HttpStatus.CREATED);
+//        }
 
-        @PostMapping("/create")
-        public ResponseEntity<?> createUser(@Valid @RequestBody VillageUserSignupDto villageUserSignupDto){
-            VillageUserSignupDto villageUserSignupDto1 = userSignupService.cereateVillageUserSignup(villageUserSignupDto);
-            return new ResponseEntity<>(villageUserSignupDto1, HttpStatus.CREATED);
-        }
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createUser(
+            @RequestPart("user") String userJson,
+            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage
+    ) throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        VillageUserSignupDto villageUserSignupDto =
+                objectMapper.readValue(userJson, VillageUserSignupDto.class);
+
+        VillageUserSignupDto result =
+                userSignupService.cereateVillageUserSignup(
+                        villageUserSignupDto,
+                        profileImage
+                );
+
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
 
     @GetMapping("/find-all")
     public ResponseEntity<List<VillageUserSignupDto>> getAllData() {
@@ -66,5 +89,16 @@ public class VillageUserSignupController {
         return ResponseEntity.ok(
                 Collections.singletonMap("message", "Logout successful")
         );
+    }
+    @GetMapping("/get-id/{id}")
+    public ResponseEntity<VillageUserSignupDto> getUserDetailById(@PathVariable long id){
+        VillageUserSignupDto userDataById = userSignupService.getUserDataById(id);
+        return new ResponseEntity<>(userDataById , HttpStatus.OK);
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> getUserCount(){
+        long count = userSignupService.getCount();
+        return new ResponseEntity<>( "total user count is " + count , HttpStatus.OK);
     }
 }

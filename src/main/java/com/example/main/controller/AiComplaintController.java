@@ -23,4 +23,8 @@ public class AiComplaintController {
     public String askGemini(@RequestBody String prompt) {
         return aiComplaintService.testGemini(prompt);
     }
+    @PostMapping("/chat")
+    public String chat(@RequestParam String message) {
+        return aiComplaintService.chat(message);
+    }
 }
