@@ -37,6 +37,10 @@ public class VillageUserSignup {
 
     private LocalDateTime createAt;
 
+    @Lob
+    @Column(name = "profile_image", columnDefinition = "MEDIUMBLOB")
+    private byte[] profileImage;
+
     public Long getId() {
         return id;
     }
@@ -99,6 +103,14 @@ public class VillageUserSignup {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
     }
 }
 
