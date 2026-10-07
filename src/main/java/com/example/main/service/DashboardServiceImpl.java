@@ -1,39 +1,35 @@
 package com.example.main.service;
 
 import com.example.main.payload.DashboardCountDto;
-import com.example.main.reposetry.VillageProblemRepository;
-import com.example.main.reposetry.VillageProjectRepository;
-import com.example.main.reposetry.VillageUserSignupRepository;
-import com.example.main.service.Interface.VillageUserSignupService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DashboardServiceImpl {
 
- private final VillageProjectServiceImpl villageUserSignupService;
  private final VillageProjectServiceImpl villageProjectService;
+ private final VillageUserSignupImpl villageUserSignup;
  private final VillageProblemServiceImpl villageProblemService;
 
-    public DashboardServiceImpl(VillageProjectServiceImpl villageUserSignupService, VillageProjectServiceImpl villageProjectService, VillageProblemServiceImpl villageProblemService) {
-        this.villageUserSignupService = villageUserSignupService;
+    public DashboardServiceImpl(VillageProjectServiceImpl villageProjectService, VillageUserSignupImpl villageUserSignup, VillageProblemServiceImpl villageProblemService) {
         this.villageProjectService = villageProjectService;
+        this.villageUserSignup = villageUserSignup;
         this.villageProblemService = villageProblemService;
     }
 
 
     public DashboardCountDto getDashboardCount() {
+        long userCount = villageUserSignup.getCount();
         long projectCount = villageProjectService.getProjectCount();
-        long usercount = villageUserSignupService.getProjectCount();
         long totalProblems = villageProblemService.getTotalProblems();
         long pending = villageProblemService.getPendingProblems("PENDING");
         long resolved = villageProblemService.getResolvedProblems("RESOLVED");
 
         return new DashboardCountDto(
-                projectCount,
-                usercount,
+                userCount,
                 totalProblems,
                 pending,
-                resolved
+                resolved,
+                projectCount
         );
     }
 }

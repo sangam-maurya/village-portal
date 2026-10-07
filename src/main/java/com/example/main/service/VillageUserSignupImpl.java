@@ -46,7 +46,6 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
 
         List<VillageUserSignup> all =
                 villageUserSignupRepository.findAll();
-
         return all.stream()
                 .map(user -> mapper.map(user, VillageUserSignupDto.class))
                 .toList();
@@ -149,7 +148,8 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
 
         log.info("Fetching total user count");
 
-        return villageUserSignupRepository.count();
+        long count = villageUserSignupRepository.count();
+        return count;
     }
 
     @Override
@@ -227,7 +227,6 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
 
         log.info("User signup completed successfully for username: {}",
                 dto.getUsername());
-
         return responseDto;
     }
 }
