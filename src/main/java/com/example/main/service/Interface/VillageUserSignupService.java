@@ -22,6 +22,5 @@ VillageUserSignup findByUsername(String username);
     VillageUserSignupDto getUserDataById(long id);
 
     long getCount();
-    VillageUserSignupDto cereateVillageUserSignup(VillageUserSignupDto dto,
-                                                  MultipartFile profileImag )throws IOException;
+    VillageUserSignupDto cereateVillageUserSignup(VillageUserSignupDto dto);
 }

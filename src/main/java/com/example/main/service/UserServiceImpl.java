@@ -8,7 +8,9 @@ import com.example.main.service.Interface.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,10 +30,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public VillageUserSignupDto updateMyData(String username, VillageUserSignupDto dto) {
+    public VillageUserSignupDto updateMyData(
+            String username,
+            VillageUserSignupDto dto,
+            MultipartFile profileImage) throws IOException {
 
-        VillageUserSignup user = villageUserSignupRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFound("User not found"));
+        VillageUserSignup user =
+                villageUserSignupRepository.findByUsername(username)
+                        .orElseThrow(() ->
+                                new ResourceNotFound("User not found"));
+
+        // Profile image update
+        if (profileImage != null && !profileImage.isEmpty()) {
+            user.setProfileImage(profileImage.getBytes());
+        }
 
         if (dto.getFullName() != null && !dto.getFullName().isEmpty()) {
             user.setFullName(dto.getFullName());
@@ -48,6 +60,7 @@ public class UserServiceImpl implements UserService {
         if (dto.getUsername() != null && !dto.getUsername().isEmpty()) {
             user.setUsername(dto.getUsername());
         }
+
         VillageUserSignup saved =
                 villageUserSignupRepository.save(user);
 
