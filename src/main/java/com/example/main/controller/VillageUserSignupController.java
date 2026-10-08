@@ -6,6 +6,7 @@ import com.example.main.payload.VillageUserLoginDto;
 import com.example.main.payload.VillageUserSignupDto;
 import com.example.main.service.Interface.VillageUserSignupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class VillageUserSignupController {
         this.userSignupService = userSignupService;
     }
 
-    /*
+
     @PostMapping("/create")
     public ResponseEntity<?> createUser(
             @Valid @RequestBody VillageUserSignupDto villageUserSignupDto) {
@@ -45,38 +46,38 @@ public class VillageUserSignupController {
                 villageUserSignupDto1,
                 HttpStatus.CREATED);
     }
-    */
 
-    @PostMapping(
-            value = "/create",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createUser(
-            @RequestPart("user") String userJson,
-            @RequestParam(
-                    value = "profileImage",
-                    required = false) MultipartFile profileImage)
-            throws Exception {
 
-        log.info("User signup request received");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        VillageUserSignupDto villageUserSignupDto =
-                objectMapper.readValue(
-                        userJson,
-                        VillageUserSignupDto.class);
-
-        VillageUserSignupDto result =
-                userSignupService.cereateVillageUserSignup(
-                        villageUserSignupDto,
-                        profileImage);
-
-        log.info("User signup completed successfully");
-
-        return new ResponseEntity<>(
-                result,
-                HttpStatus.CREATED);
-    }
+//    @PostMapping(
+//            value = "/create",
+//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> createUser(
+//            @RequestPart("user") String userJson,
+//            @RequestParam(
+//                    value = "profileImage",
+//                    required = false) MultipartFile profileImage)
+//            throws Exception {
+//
+//        log.info("User signup request received");
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        VillageUserSignupDto villageUserSignupDto =
+//                objectMapper.readValue(
+//                        userJson,
+//                        VillageUserSignupDto.class);
+//
+//        VillageUserSignupDto result =
+//                userSignupService.cereateVillageUserSignup(
+//                        villageUserSignupDto,
+//                        profileImage);
+//
+//        log.info("User signup completed successfully");
+//
+//        return new ResponseEntity<>(
+//                result,
+//                HttpStatus.CREATED);
+//    }
 
     @GetMapping("/find-all")
     public ResponseEntity<List<VillageUserSignupDto>> getAllData() {

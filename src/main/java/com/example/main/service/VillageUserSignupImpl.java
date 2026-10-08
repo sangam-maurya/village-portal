@@ -137,7 +137,6 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
                         .orElseThrow(() ->
                                 new ResourceNotFound(
                                         "Id is not present " + id));
-
         return mapper.map(
                 villageUserSignup,
                 VillageUserSignupDto.class);
@@ -154,24 +153,14 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
 
     @Override
     public VillageUserSignupDto cereateVillageUserSignup(
-            VillageUserSignupDto dto,
-            MultipartFile profileImage) throws IOException {
+            VillageUserSignupDto dto
+           )  {
 
         log.info("Starting user signup for username: {}",
                 dto.getUsername());
 
         VillageUserSignup villageUserSignup =
                 mapper.map(dto, VillageUserSignup.class);
-
-        if (profileImage != null && !profileImage.isEmpty()) {
-
-            log.info("Profile image received for username: {}",
-                    dto.getUsername());
-
-            villageUserSignup.setProfileImage(
-                    profileImage.getBytes());
-        }
-
         villageUserSignup.setCreateAt(LocalDateTime.now());
 
         log.info("Checking username availability");
