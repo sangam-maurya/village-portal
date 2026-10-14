@@ -43,7 +43,7 @@ public class VillageUserSignupController {
                         villageUserSignupDto);
 
         return new ResponseEntity<>(
-                villageUserSignupDto1,
+                "User Created Successfully",
                 HttpStatus.CREATED);
     }
 

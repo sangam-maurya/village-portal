@@ -29,7 +29,7 @@ public class VillageUserSignupDto {
 
     private LocalDateTime createAt;
 
-
+    private byte[] profileImage;
 
     public Long getId() {
         return id;
@@ -94,5 +94,12 @@ public class VillageUserSignupDto {
         this.role = role;
     }
 
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
 }
 

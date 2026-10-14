@@ -88,6 +88,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
 
         configuration.setAllowedOrigins(
                 List.of("http://localhost:5173")
+
         );
 
         configuration.setAllowedMethods(
