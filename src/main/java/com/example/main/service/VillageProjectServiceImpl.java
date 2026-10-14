@@ -1,3 +1,4 @@
+
 package com.example.main.service;
 
 import com.example.main.Excepction.ResourceNotFound;
@@ -6,99 +7,143 @@ import com.example.main.payload.VillageProjectDto;
 import com.example.main.reposetry.VillageProjectRepository;
 import com.example.main.service.Interface.VillageProjectService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 @Service
 public class VillageProjectServiceImpl implements VillageProjectService {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(VillageProjectServiceImpl.class);
 
     private final VillageProjectRepository villageProjectRepository;
     private final ModelMapper mapper;
 
-
-    public VillageProjectServiceImpl(VillageProjectRepository villageProjectRepository, ModelMapper mapper) {
+    public VillageProjectServiceImpl(
+            VillageProjectRepository villageProjectRepository,
+            ModelMapper mapper) {
         this.villageProjectRepository = villageProjectRepository;
         this.mapper = mapper;
     }
 
     @Override
     public VillageProjectDto createVillageProject(VillageProjectDto dto) {
-        VillageProject villageProject = mapper.map(dto, VillageProject.class);
-        VillageProject save = villageProjectRepository.save(villageProject);
-        VillageProjectDto map = mapper.map(save, VillageProjectDto.class);
-        return map;
+        log.info("Creating a new village project");
+
+        VillageProject villageProject =
+                mapper.map(dto, VillageProject.class);
+
+        VillageProject savedProject =
+                villageProjectRepository.save(villageProject);
+
+        log.info("Village project created successfully with ID {}",
+                savedProject.getId());
+
+        return mapper.map(savedProject, VillageProjectDto.class);
     }
 
     @Override
     public List<VillageProjectDto> getAllVillageProjects() {
-        List<VillageProject> all = villageProjectRepository.findAll();
-        List<VillageProjectDto> collect = all.stream().map(a -> mapper.map(a, VillageProjectDto.class)).collect(Collectors.toList());
-        return collect;
+        log.info("Fetching all village projects");
+
+        List<VillageProjectDto> projects =
+                villageProjectRepository.findAll()
+                        .stream()
+                        .map(project -> mapper.map(project, VillageProjectDto.class))
+                        .toList();
+
+        log.info("Fetched {} village projects", projects.size());
+
+        return projects;
     }
 
     @Override
     public VillageProjectDto getVillageProjectById(long id) {
-        VillageProject villageProject = villageProjectRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present"));
-        VillageProjectDto map = mapper.map(villageProject, VillageProjectDto.class);
-        return map;
+        log.info("Fetching village project with ID {}", id);
+
+        VillageProject project = findProjectById(id);
+
+        return mapper.map(project, VillageProjectDto.class);
     }
 
     @Override
-    public VillageProjectDto updateVillageProject(VillageProjectDto dto, long id) {
+    public VillageProjectDto updateVillageProject(
+            VillageProjectDto dto, long id) {
 
-        VillageProject villageProject = villageProjectRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFound("id is not present"));
+        log.info("Updating village project with ID {}", id);
+
+        VillageProject project = findProjectById(id);
 
         if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
-            villageProject.setTitle(dto.getTitle());
+            project.setTitle(dto.getTitle());
         }
 
         if (dto.getDescription() != null && !dto.getDescription().isEmpty()) {
-            villageProject.setDescription(dto.getDescription());
+            project.setDescription(dto.getDescription());
         }
 
         if (dto.getCategory() != null && !dto.getCategory().isEmpty()) {
-            villageProject.setCategory(dto.getCategory());
+            project.setCategory(dto.getCategory());
         }
 
         if (dto.getBudget() != null) {
-            villageProject.setBudget(dto.getBudget());
+            project.setBudget(dto.getBudget());
         }
 
         if (dto.getProgress() != null) {
-            villageProject.setProgress(dto.getProgress());
+            project.setProgress(dto.getProgress());
         }
 
         if (dto.getStartDate() != null) {
-            villageProject.setStartDate(dto.getStartDate());
+            project.setStartDate(dto.getStartDate());
         }
 
         if (dto.getExpectedEndDate() != null) {
-            villageProject.setExpectedEndDate(dto.getExpectedEndDate());
+            project.setExpectedEndDate(dto.getExpectedEndDate());
         }
 
         if (dto.getStatus() != null && !dto.getStatus().isEmpty()) {
-            villageProject.setStatus(dto.getStatus());
+            project.setStatus(dto.getStatus());
         }
 
         if (dto.getLocation() != null && !dto.getLocation().isEmpty()) {
-            villageProject.setLocation(dto.getLocation());
+            project.setLocation(dto.getLocation());
         }
 
-        VillageProject save = villageProjectRepository.save(villageProject);
+        VillageProject savedProject =
+                villageProjectRepository.save(project);
 
-        return mapper.map(save, VillageProjectDto.class);
+        log.info("Village project updated successfully with ID {}", id);
+
+        return mapper.map(savedProject, VillageProjectDto.class);
     }
 
     @Override
     public void deleteVillageProject(long id) {
-        VillageProject villageProject = villageProjectRepository.findById(id).orElseThrow(() -> new ResourceNotFound("id is not present"));
-      villageProjectRepository.delete(villageProject);
+        log.info("Deleting village project with ID {}", id);
+
+        VillageProject project = findProjectById(id);
+
+        villageProjectRepository.delete(project);
+
+        log.info("Village project deleted successfully with ID {}", id);
     }
 
     @Override
-    public long getProjectCount(){
+    public long getProjectCount() {
         long count = villageProjectRepository.count();
+
+        log.debug("Total village project count: {}", count);
+
         return count;
+    }
+
+    private VillageProject findProjectById(long id) {
+        return villageProjectRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFound("Village project not found with ID: " + id));
     }
 }

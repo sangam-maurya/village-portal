@@ -64,7 +64,16 @@ public class UserServiceImpl implements UserService {
         VillageUserSignup saved =
                 villageUserSignupRepository.save(user);
 
-        return mapper.map(saved, VillageUserSignupDto.class);
+        VillageUserSignupDto map = mapper.map(saved, VillageUserSignupDto.class);
+
+        System.out.println(
+                "DTO image size: " +
+                        (map.getProfileImage() == null
+                                ? 0
+                                : map.getProfileImage().length)
+        );
+
+        return map;
     }
     @Override
     public void deleteMyAccount(String username) {

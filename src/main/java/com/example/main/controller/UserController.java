@@ -31,9 +31,8 @@ public class UserController {
     }
     @PutMapping(
             value = "/update",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
-    public ResponseEntity<VillageUserSignupDto> updateMyData(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateMyData(
             Authentication auth,
             @RequestPart("user") String userJson,
             @RequestParam(value = "profileImage", required = false)
@@ -49,7 +48,7 @@ public class UserController {
         VillageUserSignupDto updatedDto =
                 userService.updateMyData(username, dto, profileImage);
 
-        return ResponseEntity.ok(updatedDto);
+        return ResponseEntity.ok("User Updated Successfully");
 
     }    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteMyAccount(Authentication auth) {
