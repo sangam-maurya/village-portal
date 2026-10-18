@@ -47,6 +47,9 @@ jwt:
   issuer: sagnam
   expiry:
     duration: 3600000
-
-# Email setup
-# AI Setup
+otp:
+  hash:
+    secret: ${OTP_HASH_SECRET}
+gemini:
+  api:
+    key: ${GEMINI_API_KEY}
