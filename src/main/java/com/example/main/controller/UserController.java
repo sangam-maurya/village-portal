@@ -50,7 +50,8 @@ public class UserController {
 
         return ResponseEntity.ok("User Updated Successfully");
 
-    }    @DeleteMapping("/delete")
+    }
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteMyAccount(Authentication auth) {
         String username = auth.getName();
         userService.deleteMyAccount(username);
