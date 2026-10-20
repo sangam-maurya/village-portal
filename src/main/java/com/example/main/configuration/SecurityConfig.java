@@ -78,6 +78,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
 //                .requestMatchers("/api/ai/**").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/api/v1/users/**").hasAnyRole("USER" , "ADMIN")
                         .requestMatchers("/api/v1/dashboard/**").hasRole("ADMIN")
+                        .requestMatchers("api/v1/news/news").hasAnyRole("ADMIN , USER")
+                        .requestMatchers("/api/v1/news/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
     return security.build();
@@ -87,7 +89,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of("http://localhost:5173",
+                        "http://localhost:5174"
+                )
 
         );
 
