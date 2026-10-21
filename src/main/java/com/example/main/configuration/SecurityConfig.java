@@ -63,6 +63,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                         "/api/ai/**"
                         // ✅ logout allow
                 ).permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/v1/schema/government-services",
+                                "/api/v1/schema/government-services/category/**",
+                                "/api/v1/schema/government-services/*"
+                        ).permitAll()
                 .requestMatchers("/api/v1/admin/create").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v2/village/create").hasRole("ADMIN")
@@ -81,6 +87,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exc
                         .requestMatchers("/api/v1/dashboard/**").hasRole("ADMIN")
                         .requestMatchers("api/v1/news/news").hasAnyRole("ADMIN , USER")
                         .requestMatchers("/api/v1/news/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/schema/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
     return security.build();
