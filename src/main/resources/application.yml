@@ -49,7 +49,7 @@ jwt:
     duration: 3600000
 otp:
   hash:
-    secret: ${OTP_HASH_SECRET}
+    secret: 8f2c9a71e6b4d0835a9c7f1e2d6b4a809c3e7f5d1a8b6c2e9f4d0a7b5c1e8d63
 gemini:
   api:
     key: ${GEMINI_API_KEY}
