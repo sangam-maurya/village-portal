@@ -1,12 +1,14 @@
 package com.example.main.controller;
 
 import com.example.main.payload.VillageProjectDto;
+import com.example.main.service.Interface.VillageProjectService;
 import com.example.main.service.VillageProjectServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,11 +16,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class VillageProjectServiceController {
 
-    private final VillageProjectServiceImpl villageProjectService;
+    private final VillageProjectService villageProjectService;
 
-    public VillageProjectServiceController(VillageProjectServiceImpl villageProjectService) {
+    public VillageProjectServiceController(VillageProjectService villageProjectService) {
         this.villageProjectService = villageProjectService;
     }
+
 
     @PostMapping("/create")
     public ResponseEntity<VillageProjectDto> createAboutVillage(@Valid @RequestBody VillageProjectDto dto){
@@ -31,7 +34,6 @@ public class VillageProjectServiceController {
         List<VillageProjectDto> allVillageProjects = villageProjectService.getAllVillageProjects();
         return new ResponseEntity<>(allVillageProjects , HttpStatus.OK);
     }
-
     @GetMapping("/byid/{id}")
     public ResponseEntity<VillageProjectDto> getAboutVillageById(@PathVariable long id){
         VillageProjectDto villageProjectById = villageProjectService.getVillageProjectById(id);

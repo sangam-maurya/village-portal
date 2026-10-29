@@ -16,7 +16,7 @@ public interface VillageUserSignupService {
 List<VillageUserSignupDto> getVillageUserSignup();
 //VillageUserSignupDto updateVillageUserSignup(VillageUserSignupDto VillageUserSignupDto , long id);
 void deleteVillageUserSignup(long id);
-VillageUserSignup findByUsername(String username);
+VillageUserSignupDto findByUsername(String username);
 //String verifyLogin(VillageUserLoginDto dto);
     TokenDto login(VillageUserLoginDto dto);
     VillageUserSignupDto getUserDataById(long id);

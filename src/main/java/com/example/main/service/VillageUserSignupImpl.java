@@ -67,14 +67,16 @@ public class VillageUserSignupImpl implements VillageUserSignupService {
     }
 
     @Override
-    public VillageUserSignup findByUsername(String username) {
+    public VillageUserSignupDto findByUsername(String username) {
 
         log.info("Finding user by username: {}", username);
 
-        return villageUserSignupRepository.findByUsername(username)
+        VillageUserSignup villageUserSignup = villageUserSignupRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new ResourceNotFound(
                                 "Username is not present " + username));
+        VillageUserSignupDto map = mapper.map(username, VillageUserSignupDto.class);
+        return map;
     }
 
     @Override
