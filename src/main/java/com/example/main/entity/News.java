@@ -17,7 +17,9 @@ public class News {
 
     private String category;
 
-    private String imageUrl;
+    @Lob
+    @Column(name = "image_data", columnDefinition = "MEDIUMBLOB")
+    private byte[] imageData;
 
     private LocalDateTime publishedAt;
 
@@ -62,14 +64,13 @@ public class News {
         this.category = category;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
-
     public LocalDateTime getPublishedAt() {
         return publishedAt;
     }

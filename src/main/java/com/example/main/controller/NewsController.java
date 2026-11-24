@@ -3,8 +3,11 @@ package com.example.main.controller;
 import com.example.main.payload.NewsDto;
 import com.example.main.service.Interface.NewsService;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
-
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,17 +20,30 @@ import java.util.List;
 public class NewsController {
 
     private final NewsService newsService;
-
-    public NewsController(NewsService newsService) {
+    private final ObjectMapper objectMapper;
+    public NewsController(NewsService newsService, ObjectMapper objectMapper) {
         this.newsService = newsService;
+        this.objectMapper = objectMapper;
     }
 
-    @PostMapping("/admin/news")
+//    @PostMapping("/admin/news")
+//    public ResponseEntity<NewsDto> createNews(
+//            @Valid @RequestBody NewsDto newsDto) {
+//
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .body(newsService.createNews(newsDto));
+//    }
+
+    @PostMapping(value = "/admin/news", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<NewsDto> createNews(
-            @Valid @RequestBody NewsDto newsDto) {
+            @RequestPart("newsDto") String newsDtoJson,
+            @RequestPart(value = "newsImage", required = false) MultipartFile newsImage)
+            throws Exception {
+
+        NewsDto newsDto = objectMapper.readValue(newsDtoJson, NewsDto.class);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(newsService.createNews(newsDto));
+                .body(newsService.createNews(newsDto, newsImage));
     }
 
     @GetMapping("/admin/news")

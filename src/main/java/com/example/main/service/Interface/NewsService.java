@@ -1,11 +1,13 @@
 package com.example.main.service.Interface;
 
 import com.example.main.payload.NewsDto;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 public interface NewsService {
 
-    NewsDto createNews(NewsDto newsDto);
+    NewsDto createNews(NewsDto newsDto , MultipartFile multipartFile) throws Exception;
 
     List<NewsDto> getAllNews();
 

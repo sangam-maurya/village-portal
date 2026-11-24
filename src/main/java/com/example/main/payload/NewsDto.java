@@ -18,7 +18,7 @@ public class NewsDto {
     private String category;
 
     @Size(max = 2048, message = "Image URL cannot exceed 2048 characters")
-    private String imageUrl;
+    private byte[] imageData;
 
     @Size(max = 2048, message = "Source URL cannot exceed 2048 characters")
     private String sourceUrl;
@@ -50,13 +50,6 @@ public class NewsDto {
         this.category = category;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public String getSourceUrl() {
         return sourceUrl;
@@ -64,5 +57,15 @@ public class NewsDto {
 
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
+    }
+
+
+    @Size(max = 2048, message = "Image URL cannot exceed 2048 characters")
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(@Size(max = 2048, message = "Image URL cannot exceed 2048 characters") byte[] imageData) {
+        this.imageData = imageData;
     }
 }
