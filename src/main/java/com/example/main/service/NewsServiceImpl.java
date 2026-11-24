@@ -14,7 +14,9 @@ import com.example.main.service.Interface.NewsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,17 +40,54 @@ public class NewsServiceImpl implements NewsService {
         this.userRepository = userRepository;
     }
 
-    // Admin: create and publish news
+//
+//    @Override
+//    public NewsDto createNews(NewsDto newsDto) {
+//
+//        News news = mapper.map(newsDto, News.class);
+//        news.setPublishedAt(LocalDateTime.now());
+//        news.setActive(true);
+//
+//        News savedNews = repository.save(news);
+//
+//        // Create a notification for every registered user
+//        List<VillageUserSignup> users = userRepository.findAll();
+//
+//        List<Notification> notifications = users.stream()
+//                .map(user -> {
+//                    Notification notification = new Notification();
+//                    notification.setUser(user);
+//                    notification.setTitle("New Village News");
+//                    notification.setMessage(savedNews.getTitle());
+//                    notification.setNewsId(savedNews.getId());
+//                    notification.setRead(false);
+//                    return notification;
+//                })
+//                .toList();
+//
+//        notificationRepository.saveAll(notifications);
+//
+//        return mapper.map(savedNews, NewsDto.class);
+//    }
+
+
     @Override
-    public NewsDto createNews(NewsDto newsDto) {
+    public NewsDto createNews(NewsDto newsDto, MultipartFile newsImage) throws IOException {
 
         News news = mapper.map(newsDto, News.class);
+
+        // Upload news image
+        if (newsImage != null && !newsImage.isEmpty()) {
+            news.setImageData(newsImage.getBytes());
+        }
+
         news.setPublishedAt(LocalDateTime.now());
         news.setActive(true);
 
+        // Save news
         News savedNews = repository.save(news);
 
-        // Create a notification for every registered user
+        // Create notification for every registered user
         List<VillageUserSignup> users = userRepository.findAll();
 
         List<Notification> notifications = users.stream()
@@ -63,10 +102,17 @@ public class NewsServiceImpl implements NewsService {
                 })
                 .toList();
 
-        notificationRepository.saveAll(notifications);
+        if (!notifications.isEmpty()) {
+            notificationRepository.saveAll(notifications);
+        }
 
+        // Return response
         return mapper.map(savedNews, NewsDto.class);
     }
+
+
+
+
 
     // Admin: all news
     @Override
@@ -119,10 +165,6 @@ public class NewsServiceImpl implements NewsService {
         if (newsDto.getCategory() != null
                 && !newsDto.getCategory().isBlank()) {
             news.setCategory(newsDto.getCategory().trim());
-        }
-
-        if (newsDto.getImageUrl() != null) {
-            news.setImageUrl(newsDto.getImageUrl());
         }
 
         if (newsDto.getSourceUrl() != null) {
